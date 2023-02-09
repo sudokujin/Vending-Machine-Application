@@ -35,13 +35,23 @@ public class MoneyCounter {
 
 
     public void finishTransaction(){
-        while (this.currentBalance >= 0) {
-            //      double  x=1.01;
-            //      double y=.25;
-            //
-            //      System.out.println((int) x/y);
+        if (this.currentBalance >= 0) {
+            final double QUARTER = .25;
+            final double DIME = .10;
+            final double NICKEL = .05;
+
+            int numberOfQuartersToReturn = (int) (this.currentBalance / QUARTER);
+            double centsRemaining = this.currentBalance % QUARTER;
+            int numberOfDimes = (int) ( centsRemaining / DIME);
+            centsRemaining = centsRemaining % DIME;
+            double roundOff = Math.round(centsRemaining*100)/100D;
+            int numberOfNickels = (int) (roundOff / NICKEL);
+
+            System.out.println("Quarters to return: " + numberOfQuartersToReturn+ "\nDimes to return: " +  + numberOfDimes + "\nNickels to return: " +  + numberOfNickels);
+            setCurrentBalance(0);
         }
     }
+
 
     public double getChange(double price){
         return this.currentBalance-price;

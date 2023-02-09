@@ -98,7 +98,9 @@ public class VendingMachineCLI {
 						 System.out.println("Testing 2");
 
 					 } else if (choice2.equals(PURCHASE_MENU_OPTION_FINISH_TRANSACTION)) {
-					 running2 = false;
+						 moneyCount.finishTransaction();
+						 System.out.printf("Current balance: $%.2f \n", moneyCount.getCurrentBalance());
+						 running2 = false;
 
 					 }
 				 }
