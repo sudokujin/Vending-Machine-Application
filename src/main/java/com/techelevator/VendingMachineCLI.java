@@ -1,7 +1,9 @@
 package com.techelevator;
 
 import com.techelevator.view.VendingMenu;
-
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 
 public class VendingMachineCLI {
@@ -22,9 +24,23 @@ public class VendingMachineCLI {
 
 	public VendingMachineCLI(VendingMenu menu) {
 		this.menu = menu;
+
 	}
 
 	public void run() {
+		String[] itemLine = {""};
+		File vendingMachine = new File("vendingmachine.csv");
+		try {
+			Scanner fileScanner = new Scanner(vendingMachine);
+			while(fileScanner.hasNextLine()){
+				String line = fileScanner.nextLine();
+				itemLine = line.split("|");
+			}
+		}
+		catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+
 		boolean running = true;
 		while (running) {
 			String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);

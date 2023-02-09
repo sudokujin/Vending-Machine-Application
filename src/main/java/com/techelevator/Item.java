@@ -6,9 +6,9 @@ public abstract class Item {
     private int inventory;
 
     public Item(String name,  double price, int inventory) {
-        name = this.name;
-        price = this.price;
-        inventory = this.inventory;
+        this.name = name;
+        this.price = price;
+        this.inventory = inventory;
     }
 
     private String identifier;
