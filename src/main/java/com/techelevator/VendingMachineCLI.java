@@ -75,29 +75,35 @@ public class VendingMachineCLI {
 		//String choice2 = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
 		while (running) {
 			String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
+			MoneyCounter moneyCount = new MoneyCounter(0, 0);
 			// A switch statement could also be used here.  Your choice.
 			if (choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) {
 				System.out.printf("Identifier|Name|Price|Inventory\n");
 				for (Item item : vendingInventory) {
 					System.out.printf("%s|%s|$%.2f|%d\n", item.getIdentifier(), item.getName(), item.getPrice(), item.getInventory());
 				}
-			}
-			/**
-			else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
+			} else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
 
 				 boolean running2 = true;
 				 while(running2) {
-				 if (choice2.equals(PURCHASE_MENU_OPTION_FEED_MONEY)) {
+					 String choice2 = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
+					 if (choice2.equals(PURCHASE_MENU_OPTION_FEED_MONEY)) {
+						 System.out.println("Please enter whole dollar amount to add to Vending Machine.");
+						 Scanner userInput = new Scanner(System.in);
+						 int moneyToAdd = userInput.nextInt();
+						 moneyCount.feedMoney(moneyToAdd);
+						 System.out.printf("Current balance: $%.2f \n", moneyCount.getCurrentBalance());
+						 System.out.printf("Current amount provided: $%d\n", moneyCount.getMoneyProvided());
+					 } else if (choice2.equals(PURCHASE_MENU_OPTION_SELECT_PRODUCT)) {
+						 System.out.println("Testing 2");
 
-				 } else if (choice2.equals(PURCHASE_MENU_OPTION_SELECT_PRODUCT)) {
+					 } else if (choice2.equals(PURCHASE_MENU_OPTION_FINISH_TRANSACTION)) {
+					 running2 = false;
 
-				 } else if (choice2.equals(PURCHASE_MENU_OPTION_FINISH_TRANSACTION)) {
-				 running2 = false;
-				 }
+					 }
 				 }
 
 				}
-		     **/
 			else if (choice.equals(MAIN_MENU_OPTION_EXIT)) {
 					running = false;
 				}
