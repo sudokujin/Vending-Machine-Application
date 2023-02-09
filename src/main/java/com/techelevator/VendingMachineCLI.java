@@ -3,11 +3,13 @@ package com.techelevator;
 import com.techelevator.view.VendingMenu;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 
 public class VendingMachineCLI {
-
+	public static String[] itemLine = {""};
 	private static final String MAIN_MENU_OPTION_DISPLAY_ITEMS = "Display Vending Machine Items";
 	private static final String MAIN_MENU_OPTION_PURCHASE = "Purchase";
 	private static final String MAIN_MENU_OPTION_EXIT = "Exit";
@@ -28,13 +30,27 @@ public class VendingMachineCLI {
 	}
 
 	public void run() {
-		String[] itemLine = {""};
+		List<Item> vendingInventory = new ArrayList<>();
+		//public static String[] itemLine = {""};
 		File vendingMachine = new File("vendingmachine.csv");
 		try {
 			Scanner fileScanner = new Scanner(vendingMachine);
 			while(fileScanner.hasNextLine()){
 				String line = fileScanner.nextLine();
-				itemLine = line.split("|");
+				itemLine = line.split("\\|");
+				if(itemLine[3].equals("Chip")){
+					Chip chip = new Chip(itemLine[1], Double.parseDouble(itemLine[2]), 5, itemLine[0]);
+					vendingInventory.add(chip);
+				} else if(itemLine[3].equals("Candy")){
+					Candy candy = new Candy(itemLine[1], Double.parseDouble(itemLine[2]), 5, itemLine[0]);
+					vendingInventory.add(candy);
+				} else if(itemLine[3].equals("Gum")){
+					Gum gum = new Gum(itemLine[1], Double.parseDouble(itemLine[2]), 5, itemLine[0]);
+					vendingInventory.add(gum);
+				} else if(itemLine[3].equals("Beverage")){
+					Beverage beverage = new Beverage(itemLine[1], Double.parseDouble(itemLine[2]), 5, itemLine[0]);
+					vendingInventory.add(beverage);
+				}
 			}
 		}
 		catch (FileNotFoundException e) {

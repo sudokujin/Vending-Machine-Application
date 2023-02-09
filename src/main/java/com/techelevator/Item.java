@@ -4,14 +4,15 @@ public abstract class Item {
     private String name;
     private double price;
     private int inventory;
+    private String identifier;
 
-    public Item(String name,  double price, int inventory) {
+    public Item(String name,  double price, int inventory, String identifier) {
         this.name = name;
         this.price = price;
         this.inventory = inventory;
+        this.identifier = identifier;
     }
 
-    private String identifier;
     private final int MIN_COUNT = 0;
     private final int MAX_COUNT = 5;
 
