@@ -7,8 +7,8 @@ public abstract class Item {
 
 
     private String identifier;
-    private final int minCount = 0;
-    private final int maxCount = 5;
+    private final int MIN_COUNT = 0;
+    private final int MAX_COUNT = 5;
 
 
     public String getName() {
