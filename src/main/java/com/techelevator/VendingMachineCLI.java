@@ -52,6 +52,18 @@ public class VendingMachineCLI {
 					vendingInventory.add(beverage);
 				}
 			}
+
+
+//			Item[] vendingArray = (Item[]) vendingInventory.toArray();
+
+			VendingMenu menu = new VendingMenu(System.in, System.out);
+			String[] optionsArray = {"1", "2", "3", "4"};
+			if (menu.getChoiceFromOptions(optionsArray).equals("1"))  {
+				System.out.printf("Identifier|Name|Price|Inventory\n");
+				for(Item item : vendingInventory) {
+					System.out.printf("%s|%s|$%.2f|%d\n", item.getIdentifier(), item.getName(), item.getPrice(), item.getInventory());
+				}
+			}
 		}
 		catch (FileNotFoundException e) {
 			e.printStackTrace();

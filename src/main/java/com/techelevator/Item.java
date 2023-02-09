@@ -45,7 +45,17 @@ public abstract class Item {
         return identifier;
     }
 
-   //abstract methods
+    @Override
+    public String toString() {
+        return "Item{" +
+                "name='" + name + '\'' +
+                ", price=" + price +
+                ", inventory=" + inventory +
+                ", identifier='" + identifier + '\'' +
+                '}';
+    }
+
+    //abstract methods
     public abstract void getSound();
     
 }
