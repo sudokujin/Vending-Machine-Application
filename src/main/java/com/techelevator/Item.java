@@ -5,6 +5,11 @@ public abstract class Item {
     private double price;
     private int inventory;
 
+    public Item(String name,  double price, int inventory) {
+        name = this.name;
+        price = this.price;
+        inventory = this.inventory;
+    }
 
     private String identifier;
     private final int MIN_COUNT = 0;
