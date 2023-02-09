@@ -57,8 +57,8 @@ public class VendingMachineCLI {
 //			Item[] vendingArray = (Item[]) vendingInventory.toArray();
 
 			VendingMenu menu = new VendingMenu(System.in, System.out);
-			String[] optionsArray = {"1", "2", "3", "4"};
-			if (menu.getChoiceFromOptions(optionsArray).equals("1"))  {
+			String[] optionsArray = {MAIN_MENU_OPTION_DISPLAY_ITEMS, MAIN_MENU_OPTION_PURCHASE, MAIN_MENU_OPTION_EXIT, MAIN_MENU_SECRET_OPTION};
+			if (menu.getChoiceFromOptions(MAIN_MENU_OPTIONS).equals(MAIN_MENU_OPTION_DISPLAY_ITEMS))  {
 				System.out.printf("Identifier|Name|Price|Inventory\n");
 				for(Item item : vendingInventory) {
 					System.out.printf("%s|%s|$%.2f|%d\n", item.getIdentifier(), item.getName(), item.getPrice(), item.getInventory());
@@ -70,18 +70,32 @@ public class VendingMachineCLI {
 		}
 
 		boolean running = true;
+		String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
+		String choice2 = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
 		while (running) {
-			String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
 
 			// A switch statement could also be used here.  Your choice.
 			if (choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) {
-				// display vending machine items
+				System.out.printf("Identifier|Name|Price|Inventory\n");
+				for (Item item : vendingInventory) {
+					System.out.printf("%s|%s|$%.2f|%d\n", item.getIdentifier(), item.getName(), item.getPrice(), item.getInventory());
+				}
 			} else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
-				// do purchase
+				boolean running2 = true;
+				while(running2) {
+					if (choice2.equals(PURCHASE_MENU_OPTION_FEED_MONEY)) {
+
+					} else if (choice2.equals(PURCHASE_MENU_OPTION_SELECT_PRODUCT)) {
+
+					} else if (choice2.equals(PURCHASE_MENU_OPTION_FINISH_TRANSACTION)) {
+						running2 = false;
+					}
+				}
+			} else if (choice.equals(MAIN_MENU_OPTION_EXIT)) {
+				running = false;
 			}
 		}
 	}
-
 	public static void main(String[] args) {
 		VendingMenu menu = new VendingMenu(System.in, System.out);
 		VendingMachineCLI cli = new VendingMachineCLI(menu);
