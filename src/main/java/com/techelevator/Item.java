@@ -40,6 +40,6 @@ public abstract class Item {
     }
 
    //abstract methods
-    public abstract String getSound();
+    public abstract void getSound();
     
 }
