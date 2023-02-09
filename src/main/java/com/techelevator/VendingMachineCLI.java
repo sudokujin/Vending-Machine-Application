@@ -19,8 +19,8 @@ public class VendingMachineCLI {
 	private static final String PURCHASE_MENU_OPTION_SELECT_PRODUCT = "Select Product";
 	private static final String PURCHASE_MENU_OPTION_FINISH_TRANSACTION = "Finish Transaction";
 
-	private static final String[] MAIN_MENU_OPTIONS = { MAIN_MENU_OPTION_DISPLAY_ITEMS, MAIN_MENU_OPTION_PURCHASE, MAIN_MENU_OPTION_EXIT, MAIN_MENU_SECRET_OPTION };
-	private static final String[] PURCHASE_MENU_OPTIONS = { PURCHASE_MENU_OPTION_FEED_MONEY, PURCHASE_MENU_OPTION_SELECT_PRODUCT, PURCHASE_MENU_OPTION_FINISH_TRANSACTION};
+	private static final String[] MAIN_MENU_OPTIONS = {MAIN_MENU_OPTION_DISPLAY_ITEMS, MAIN_MENU_OPTION_PURCHASE, MAIN_MENU_OPTION_EXIT, MAIN_MENU_SECRET_OPTION};
+	private static final String[] PURCHASE_MENU_OPTIONS = {PURCHASE_MENU_OPTION_FEED_MONEY, PURCHASE_MENU_OPTION_SELECT_PRODUCT, PURCHASE_MENU_OPTION_FINISH_TRANSACTION};
 
 	private VendingMenu menu;
 
@@ -35,19 +35,19 @@ public class VendingMachineCLI {
 		File vendingMachine = new File("vendingmachine.csv");
 		try {
 			Scanner fileScanner = new Scanner(vendingMachine);
-			while(fileScanner.hasNextLine()){
+			while (fileScanner.hasNextLine()) {
 				String line = fileScanner.nextLine();
 				itemLine = line.split("\\|");
-				if(itemLine[3].equals("Chip")){
+				if (itemLine[3].equals("Chip")) {
 					Chip chip = new Chip(itemLine[1], Double.parseDouble(itemLine[2]), 5, itemLine[0]);
 					vendingInventory.add(chip);
-				} else if(itemLine[3].equals("Candy")){
+				} else if (itemLine[3].equals("Candy")) {
 					Candy candy = new Candy(itemLine[1], Double.parseDouble(itemLine[2]), 5, itemLine[0]);
 					vendingInventory.add(candy);
-				} else if(itemLine[3].equals("Gum")){
+				} else if (itemLine[3].equals("Gum")) {
 					Gum gum = new Gum(itemLine[1], Double.parseDouble(itemLine[2]), 5, itemLine[0]);
 					vendingInventory.add(gum);
-				} else if(itemLine[3].equals("Beverage")){
+				} else if (itemLine[3].equals("Beverage")) {
 					Beverage beverage = new Beverage(itemLine[1], Double.parseDouble(itemLine[2]), 5, itemLine[0]);
 					vendingInventory.add(beverage);
 				}
@@ -56,49 +56,61 @@ public class VendingMachineCLI {
 
 //			Item[] vendingArray = (Item[]) vendingInventory.toArray();
 
-			VendingMenu menu = new VendingMenu(System.in, System.out);
-			String[] optionsArray = {MAIN_MENU_OPTION_DISPLAY_ITEMS, MAIN_MENU_OPTION_PURCHASE, MAIN_MENU_OPTION_EXIT, MAIN_MENU_SECRET_OPTION};
-			if (menu.getChoiceFromOptions(MAIN_MENU_OPTIONS).equals(MAIN_MENU_OPTION_DISPLAY_ITEMS))  {
-				System.out.printf("Identifier|Name|Price|Inventory\n");
-				for(Item item : vendingInventory) {
-					System.out.printf("%s|%s|$%.2f|%d\n", item.getIdentifier(), item.getName(), item.getPrice(), item.getInventory());
-				}
-			}
-		}
-		catch (FileNotFoundException e) {
+			//VendingMenu menu = new VendingMenu(System.in, System.out);
+			/**
+			 String[] optionsArray = {MAIN_MENU_OPTION_DISPLAY_ITEMS, MAIN_MENU_OPTION_PURCHASE, MAIN_MENU_OPTION_EXIT, MAIN_MENU_SECRET_OPTION};
+			 if (menu.getChoiceFromOptions(MAIN_MENU_OPTIONS).equals(MAIN_MENU_OPTION_DISPLAY_ITEMS))  {
+			 System.out.printf("Identifier|Name|Price|Inventory\n");
+			 for(Item item : vendingInventory) {
+			 System.out.printf("%s|%s|$%.2f|%d\n", item.getIdentifier(), item.getName(), item.getPrice(), item.getInventory());
+			 }
+			 }
+			 **/
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 
 		boolean running = true;
-		String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
-		String choice2 = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
+		//String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
+		//String choice2 = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
 		while (running) {
-
+			String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
 			// A switch statement could also be used here.  Your choice.
 			if (choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) {
 				System.out.printf("Identifier|Name|Price|Inventory\n");
 				for (Item item : vendingInventory) {
 					System.out.printf("%s|%s|$%.2f|%d\n", item.getIdentifier(), item.getName(), item.getPrice(), item.getInventory());
 				}
-			} else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
-				boolean running2 = true;
-				while(running2) {
-					if (choice2.equals(PURCHASE_MENU_OPTION_FEED_MONEY)) {
-
-					} else if (choice2.equals(PURCHASE_MENU_OPTION_SELECT_PRODUCT)) {
-
-					} else if (choice2.equals(PURCHASE_MENU_OPTION_FINISH_TRANSACTION)) {
-						running2 = false;
-					}
-				}
-			} else if (choice.equals(MAIN_MENU_OPTION_EXIT)) {
-				running = false;
 			}
+			/**
+			else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
+
+				 boolean running2 = true;
+				 while(running2) {
+				 if (choice2.equals(PURCHASE_MENU_OPTION_FEED_MONEY)) {
+
+				 } else if (choice2.equals(PURCHASE_MENU_OPTION_SELECT_PRODUCT)) {
+
+				 } else if (choice2.equals(PURCHASE_MENU_OPTION_FINISH_TRANSACTION)) {
+				 running2 = false;
+				 }
+				 }
+
+				}
+		     **/
+			else if (choice.equals(MAIN_MENU_OPTION_EXIT)) {
+					running = false;
+				}
+
+			}
+
+		}
+		public static void main (String[]args){
+			VendingMenu menu = new VendingMenu(System.in, System.out);
+			VendingMachineCLI cli = new VendingMachineCLI(menu);
+
+
+			cli.run();
 		}
 	}
-	public static void main(String[] args) {
-		VendingMenu menu = new VendingMenu(System.in, System.out);
-		VendingMachineCLI cli = new VendingMachineCLI(menu);
-		cli.run();
-	}
-}
+
