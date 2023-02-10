@@ -86,17 +86,40 @@ public class VendingMachineCLI {
 
 				 boolean running2 = true;
 				 while(running2) {
+					 Scanner userInput = new Scanner(System.in);
 					 String choice2 = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
 					 if (choice2.equals(PURCHASE_MENU_OPTION_FEED_MONEY)) {
 						 System.out.println("Please enter whole dollar amount to add to Vending Machine.");
-						 Scanner userInput = new Scanner(System.in);
 						 int moneyToAdd = userInput.nextInt();
 						 moneyCount.feedMoney(moneyToAdd);
 						 System.out.printf("Current balance: $%.2f \n", moneyCount.getCurrentBalance());
 						 System.out.printf("Current amount provided: $%d\n", moneyCount.getMoneyProvided());
 					 } else if (choice2.equals(PURCHASE_MENU_OPTION_SELECT_PRODUCT)) {
 						 System.out.println("Testing 2");
+						 //show the list of products
+							 System.out.printf("Identifier|Name|Price|Inventory\n");
+							 for (Item item : vendingInventory) {
+								 System.out.printf("%s|%s|$%.2f|%d\n", item.getIdentifier(), item.getName(), item.getPrice(), item.getInventory());
+							 }
+						 //user selects based on the code "identifier"
+						 System.out.println("Please enter the code of the item you would like to purchase:");
+						 String code = userInput.nextLine();
 
+						 for (Item item : vendingInventory) {
+							 //System.out.println(item.toString());
+						 if (item.getIdentifier().equals(code)) {
+							 if (item.getInventory() == 0) {
+								 System.out.println("Sorry, this item is sold out");
+								 break;
+							 } else if (item.getInventory() > 0) {
+								 item.setInventory(item.getInventory() - 1);
+								 System.out.println(item.getInventory() + " " + item.getName());
+								 break;
+							 }
+						 } else {
+							 continue;
+						 }
+						 }
 					 } else if (choice2.equals(PURCHASE_MENU_OPTION_FINISH_TRANSACTION)) {
 						 moneyCount.finishTransaction();
 						 System.out.printf("Current balance: $%.2f \n", moneyCount.getCurrentBalance());
