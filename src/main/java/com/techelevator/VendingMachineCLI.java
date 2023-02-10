@@ -34,7 +34,6 @@ public class VendingMachineCLI {
 		List<Item> vendingInventory = new ArrayList<>();
 		List<String> itemIdentifiers = new ArrayList<>();
 		File logFile = new File("src/main/resources","log.txt");
-		//public static String[] itemLine = {""};
 		File vendingMachine = new File("vendingmachine.csv");
 		try {
 			Scanner fileScanner = new Scanner(vendingMachine);
@@ -61,25 +60,12 @@ public class VendingMachineCLI {
 			}
 
 
-//			Item[] vendingArray = (Item[]) vendingInventory.toArray();
-
-			//VendingMenu menu = new VendingMenu(System.in, System.out);
-			/**
-			 String[] optionsArray = {MAIN_MENU_OPTION_DISPLAY_ITEMS, MAIN_MENU_OPTION_PURCHASE, MAIN_MENU_OPTION_EXIT, MAIN_MENU_SECRET_OPTION};
-			 if (menu.getChoiceFromOptions(MAIN_MENU_OPTIONS).equals(MAIN_MENU_OPTION_DISPLAY_ITEMS))  {
-			 System.out.printf("Identifier|Name|Price|Inventory\n");
-			 for(Item item : vendingInventory) {
-			 System.out.printf("%s|%s|$%.2f|%d\n", item.getIdentifier(), item.getName(), item.getPrice(), item.getInventory());
-			 }
-			 }
-			 **/
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 
 		boolean running = true;
-		//String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
-		//String choice2 = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
+
 		while (running) {
 			String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
 			MoneyCounter moneyCount = new MoneyCounter(0, 0);
@@ -99,53 +85,36 @@ public class VendingMachineCLI {
 					 String strDate = f.format(new Date());
 
 					 Scanner userInput = new Scanner(System.in);
-					/**
-					 try(PrintWriter writer = new PrintWriter(logFile)) {
-						 //writer.append(" " + "text");
-						 writer.append(strDate + " " + strTime + "\n");
-						 writer.write(System.lineSeparator());
-					 } catch (FileNotFoundException e) {
-						 e.printStackTrace();
-					 }
-					**/
+
 					 String choice2 = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
 					 if (choice2.equals(PURCHASE_MENU_OPTION_FEED_MONEY)) {
 						 System.out.println("Please enter whole dollar amount.");
-						 //String moneyFromUser = userInput.nextLine();
-						 //pick 1 5 10 or 20
-						 //if !.equals1 5, 10 ,20)
-						 //you suck, pick somethings else
-						 /**
-						 if (!moneyFromUser.equals("1") || !moneyFromUser.equals("1") || !moneyFromUser.equals("1") || !moneyFromUser.equals("1")
-						 || !moneyFromUser.equals("1") || !moneyFromUser.equals("1")) {
-							 System.out.println("Not an acceptible dollar amount!");
+						 int moneyToAdd;
+						 while (!userInput.hasNextInt()) {
+							 System.out.println("Please enter a whole dollar amount (1 dollar and up): ");
+							 userInput.next();
 						 }
-						 int moneyToAdd = Integer.parseInt(moneyFromUser);
-						 **/
-						 try {
-							 userInput.nextInt();
-						 } catch (InputMismatchException | NumberFormatException e) {
-							 System.out.println("Not a whole dollar amount!");
-							 e.getMessage();
-						 } finally {
+						 moneyToAdd = userInput.nextInt();
 
-						 }
-						 int moneyToAdd = userInput.nextInt();
-						 moneyCount.feedMoney(moneyToAdd);
-						 if (moneyToAdd > 0) {
-							 try (PrintWriter writer = new PrintWriter(new FileOutputStream(logFile, true))) {
-								 //writer.append(" " + "text");
-								 String appendFeedMoney = String.format("%s %s FEED MONEY: $%d.00 " +
-										 "$%.2f ", strDate, strTime, moneyToAdd, moneyCount.getCurrentBalance());
-								 // writer.append(strDate + " " + strTime + " " + "FEED MONEY:" + );
-								 writer.append(appendFeedMoney);
-								 writer.write(System.lineSeparator());
-							 } catch (FileNotFoundException e) {
-								 e.printStackTrace();
+						 if (!(moneyToAdd > 0)) {
+							 System.out.println("Stop trying to steal money!");;
+						 } else {
+							 moneyCount.feedMoney(moneyToAdd);
+							 if (moneyToAdd > 0) {
+								 try (PrintWriter writer = new PrintWriter(new FileOutputStream(logFile, true))) {
+									 //writer.append(" " + "text");
+									 String appendFeedMoney = String.format("%s %s FEED MONEY: $%d.00 " +
+											 "$%.2f ", strDate, strTime, moneyToAdd, moneyCount.getCurrentBalance());
+									 // writer.append(strDate + " " + strTime + " " + "FEED MONEY:" + );
+									 writer.append(appendFeedMoney);
+									 writer.write(System.lineSeparator());
+								 } catch (FileNotFoundException e) {
+									 e.printStackTrace();
+								 }
 							 }
+							 System.out.printf("Current balance: $%.2f \n", moneyCount.getCurrentBalance());
+							 System.out.printf("Current amount provided: $%d\n", moneyCount.getMoneyProvided());
 						 }
-						 System.out.printf("Current balance: $%.2f \n", moneyCount.getCurrentBalance());
-						 System.out.printf("Current amount provided: $%d\n", moneyCount.getMoneyProvided());
 					 } else if (choice2.equals(PURCHASE_MENU_OPTION_SELECT_PRODUCT)) {
 						 System.out.println("Testing 2");
 						 //show the list of products
