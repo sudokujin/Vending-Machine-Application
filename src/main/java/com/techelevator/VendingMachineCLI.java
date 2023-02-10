@@ -97,7 +97,7 @@ public class VendingMachineCLI {
 				 boolean running2 = true;
 				 while(running2) {
 					 Format f = new SimpleDateFormat("MM/dd/yyyy");
-					 Format h = new SimpleDateFormat("HH:mm:ss a");
+					 Format h = new SimpleDateFormat("hh:mm:ss a");
 					 String strTime = h.format(new Date());
 					 System.out.println(strTime);
 					 String strDate = f.format(new Date());
@@ -115,16 +115,21 @@ public class VendingMachineCLI {
 					**/
 					 String choice2 = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
 					 if (choice2.equals(PURCHASE_MENU_OPTION_FEED_MONEY)) {
-						 try(PrintWriter writer = new PrintWriter(new FileOutputStream(logFile, true))) {
-							 //writer.append(" " + "text");
-							 writer.append(strDate + " " + strTime + " This is test\n");
-							 writer.write(System.lineSeparator());
-						 } catch (FileNotFoundException e) {
-							 e.printStackTrace();
-						 }
 						 System.out.println("Please enter whole dollar amount to add to Vending Machine.");
 						 int moneyToAdd = userInput.nextInt();
 						 moneyCount.feedMoney(moneyToAdd);
+						 if (moneyToAdd > 0) {
+							 try (PrintWriter writer = new PrintWriter(new FileOutputStream(logFile, true))) {
+								 //writer.append(" " + "text");
+								 String appendFeedMoney = String.format("%s %s FEED MONEY: $%d.00 " +
+										 "$%.2f ", strDate, strTime, moneyToAdd, moneyCount.getCurrentBalance());
+								 // writer.append(strDate + " " + strTime + " " + "FEED MONEY:" + );
+								 writer.append(appendFeedMoney);
+								 writer.write(System.lineSeparator());
+							 } catch (FileNotFoundException e) {
+								 e.printStackTrace();
+							 }
+						 }
 						 System.out.printf("Current balance: $%.2f \n", moneyCount.getCurrentBalance());
 						 System.out.printf("Current amount provided: $%d\n", moneyCount.getMoneyProvided());
 					 } else if (choice2.equals(PURCHASE_MENU_OPTION_SELECT_PRODUCT)) {
@@ -160,6 +165,16 @@ public class VendingMachineCLI {
 										 System.out.printf("Total remaining %s: %d.\n", item.getName(), item.getInventory());
 										 System.out.printf("Balance remaining: $%.2f\n", moneyCount.getCurrentBalance());
 										 item.getSound();
+										 try(PrintWriter writer = new PrintWriter(new FileOutputStream(logFile, true))) {
+											 //writer.append(" " + "text");
+											 String appendSelectProduct = String.format("%s %s %s %s $%.2f " +
+													 "$%.2f ", strDate, strTime,item.getName(), item.getIdentifier(), item.getPrice(),moneyCount.getCurrentBalance());
+											 // writer.append(strDate + " " + strTime + " " + "FEED MONEY:" + );
+											 writer.append(appendSelectProduct);
+											 writer.write(System.lineSeparator());
+										 } catch (FileNotFoundException e) {
+											 e.printStackTrace();
+										 }
 										 break;
 									 }
 								 }
@@ -170,6 +185,16 @@ public class VendingMachineCLI {
 					 } else if (choice2.equals(PURCHASE_MENU_OPTION_FINISH_TRANSACTION)) {
 						 moneyCount.finishTransaction();
 						 System.out.printf("Current balance: $%.2f \n", moneyCount.getCurrentBalance());
+						 try(PrintWriter writer = new PrintWriter(new FileOutputStream(logFile, true))) {
+							 //writer.append(" " + "text");
+							 String appendGiveChange = String.format("%s %s GIVE CHANGE: $%d.00 " +
+									 "$%.2f ", strDate, strTime, moneyCount.getMoneyProvided(),moneyCount.getCurrentBalance());
+							 // writer.append(strDate + " " + strTime + " " + "FEED MONEY:" + );
+							 writer.append(appendGiveChange);
+							 writer.write(System.lineSeparator());
+						 } catch (FileNotFoundException e) {
+							 e.printStackTrace();
+						 }
 						 running2 = false;
 
 					 }
