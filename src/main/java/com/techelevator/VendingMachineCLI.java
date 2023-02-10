@@ -4,9 +4,15 @@ import com.techelevator.view.VendingMenu;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Calendar;
 
 
 public class VendingMachineCLI {
@@ -92,8 +98,22 @@ public class VendingMachineCLI {
 
 				 boolean running2 = true;
 				 while(running2) {
+					 Format f = new SimpleDateFormat("MM/dd/yyyy");
+					 Format h = new SimpleDateFormat("HH:mm:ss a");
+					 String strTime = h.format(new Date());
+					 System.out.println(strTime);
+					 String strDate = f.format(new Date());
+					 System.out.println(strDate);
+
 					 Scanner userInput = new Scanner(System.in);
-					 File logFile = new File("log.txt","log.txt");
+					 File logFile = new File("C:\\Users\\Student\\workspace\\mod-1-pair-team-4\\nlr-12-module-1-capstone-purple-team-4","log.txt");
+					 try(PrintWriter writer = new PrintWriter(logFile)) {
+						 writer.append(" " + "text");
+					 } catch (FileNotFoundException e) {
+						 e.printStackTrace();
+					 }
+
+
 					 String choice2 = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
 					 if (choice2.equals(PURCHASE_MENU_OPTION_FEED_MONEY)) {
 						 System.out.println("Please enter whole dollar amount to add to Vending Machine.");
