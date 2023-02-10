@@ -3,14 +3,10 @@ package com.techelevator;
 import com.techelevator.view.VendingMenu;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Calendar;
 
 
 public class VendingMachineCLI {
@@ -98,10 +94,9 @@ public class VendingMachineCLI {
 				 while(running2) {
 					 Format f = new SimpleDateFormat("MM/dd/yyyy");
 					 Format h = new SimpleDateFormat("hh:mm:ss a");
+
 					 String strTime = h.format(new Date());
-					 System.out.println(strTime);
 					 String strDate = f.format(new Date());
-					 System.out.println(strDate);
 
 					 Scanner userInput = new Scanner(System.in);
 					/**
@@ -115,7 +110,26 @@ public class VendingMachineCLI {
 					**/
 					 String choice2 = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
 					 if (choice2.equals(PURCHASE_MENU_OPTION_FEED_MONEY)) {
-						 System.out.println("Please enter whole dollar amount to add to Vending Machine.");
+						 System.out.println("Please enter whole dollar amount.");
+						 //String moneyFromUser = userInput.nextLine();
+						 //pick 1 5 10 or 20
+						 //if !.equals1 5, 10 ,20)
+						 //you suck, pick somethings else
+						 /**
+						 if (!moneyFromUser.equals("1") || !moneyFromUser.equals("1") || !moneyFromUser.equals("1") || !moneyFromUser.equals("1")
+						 || !moneyFromUser.equals("1") || !moneyFromUser.equals("1")) {
+							 System.out.println("Not an acceptible dollar amount!");
+						 }
+						 int moneyToAdd = Integer.parseInt(moneyFromUser);
+						 **/
+						 try {
+							 userInput.nextInt();
+						 } catch (InputMismatchException | NumberFormatException e) {
+							 System.out.println("Not a whole dollar amount!");
+							 e.getMessage();
+						 } finally {
+
+						 }
 						 int moneyToAdd = userInput.nextInt();
 						 moneyCount.feedMoney(moneyToAdd);
 						 if (moneyToAdd > 0) {
