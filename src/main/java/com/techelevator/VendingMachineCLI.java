@@ -1,10 +1,8 @@
 package com.techelevator;
 
 import com.techelevator.view.VendingMenu;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -39,6 +37,7 @@ public class VendingMachineCLI {
 	public void run() {
 		List<Item> vendingInventory = new ArrayList<>();
 		List<String> itemIdentifiers = new ArrayList<>();
+		File logFile = new File("src/main/resources","log.txt");
 		//public static String[] itemLine = {""};
 		File vendingMachine = new File("vendingmachine.csv");
 		try {
@@ -95,7 +94,6 @@ public class VendingMachineCLI {
 					System.out.printf("%s|%s|$%.2f|%d\n", item.getIdentifier(), item.getName(), item.getPrice(), item.getInventory());
 				}
 			} else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
-
 				 boolean running2 = true;
 				 while(running2) {
 					 Format f = new SimpleDateFormat("MM/dd/yyyy");
@@ -106,16 +104,24 @@ public class VendingMachineCLI {
 					 System.out.println(strDate);
 
 					 Scanner userInput = new Scanner(System.in);
-					 File logFile = new File("C:\\Users\\Student\\workspace\\mod-1-pair-team-4\\nlr-12-module-1-capstone-purple-team-4","log.txt");
+					/**
 					 try(PrintWriter writer = new PrintWriter(logFile)) {
-						 writer.append(" " + "text");
+						 //writer.append(" " + "text");
+						 writer.append(strDate + " " + strTime + "\n");
+						 writer.write(System.lineSeparator());
 					 } catch (FileNotFoundException e) {
 						 e.printStackTrace();
 					 }
-
-
+					**/
 					 String choice2 = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
 					 if (choice2.equals(PURCHASE_MENU_OPTION_FEED_MONEY)) {
+						 try(PrintWriter writer = new PrintWriter(new FileOutputStream(logFile, true))) {
+							 //writer.append(" " + "text");
+							 writer.append(strDate + " " + strTime + " This is test\n");
+							 writer.write(System.lineSeparator());
+						 } catch (FileNotFoundException e) {
+							 e.printStackTrace();
+						 }
 						 System.out.println("Please enter whole dollar amount to add to Vending Machine.");
 						 int moneyToAdd = userInput.nextInt();
 						 moneyCount.feedMoney(moneyToAdd);
