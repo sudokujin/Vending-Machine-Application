@@ -3,6 +3,7 @@ package com.techelevator;
 import com.techelevator.view.VendingMenu;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -31,6 +32,7 @@ public class VendingMachineCLI {
 
 	public void run() {
 		List<Item> vendingInventory = new ArrayList<>();
+		List<String> itemIdentifiers = new ArrayList<>();
 		//public static String[] itemLine = {""};
 		File vendingMachine = new File("vendingmachine.csv");
 		try {
@@ -41,15 +43,19 @@ public class VendingMachineCLI {
 				if (itemLine[3].equals("Chip")) {
 					Chip chip = new Chip(itemLine[1], Double.parseDouble(itemLine[2]), 5, itemLine[0]);
 					vendingInventory.add(chip);
+					itemIdentifiers.add(itemLine[0]);
 				} else if (itemLine[3].equals("Candy")) {
 					Candy candy = new Candy(itemLine[1], Double.parseDouble(itemLine[2]), 5, itemLine[0]);
 					vendingInventory.add(candy);
+					itemIdentifiers.add(itemLine[0]);
 				} else if (itemLine[3].equals("Gum")) {
 					Gum gum = new Gum(itemLine[1], Double.parseDouble(itemLine[2]), 5, itemLine[0]);
 					vendingInventory.add(gum);
+					itemIdentifiers.add(itemLine[0]);
 				} else if (itemLine[3].equals("Beverage")) {
 					Beverage beverage = new Beverage(itemLine[1], Double.parseDouble(itemLine[2]), 5, itemLine[0]);
 					vendingInventory.add(beverage);
+					itemIdentifiers.add(itemLine[0]);
 				}
 			}
 
@@ -87,6 +93,7 @@ public class VendingMachineCLI {
 				 boolean running2 = true;
 				 while(running2) {
 					 Scanner userInput = new Scanner(System.in);
+					 File logFile = new File("log.txt","log.txt");
 					 String choice2 = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
 					 if (choice2.equals(PURCHASE_MENU_OPTION_FEED_MONEY)) {
 						 System.out.println("Please enter whole dollar amount to add to Vending Machine.");
@@ -106,19 +113,33 @@ public class VendingMachineCLI {
 						 String code = userInput.nextLine();
 
 						 for (Item item : vendingInventory) {
-							 //System.out.println(item.toString());
-						 if (item.getIdentifier().equals(code)) {
-							 if (item.getInventory() == 0) {
-								 System.out.println("Sorry, this item is sold out");
-								 break;
-							 } else if (item.getInventory() > 0) {
-								 item.setInventory(item.getInventory() - 1);
-								 System.out.println(item.getInventory() + " " + item.getName());
+							 if (!itemIdentifiers.contains(code)) {
+								 System.out.println("There is no item with that code!");
 								 break;
 							 }
-						 } else {
-							 continue;
-						 }
+							 //System.out.println(item.toString());
+							 if (item.getIdentifier().equals(code)) {
+								 if (item.getInventory() == 0) {
+									 System.out.println("Sorry, this item is sold out");
+									 break;
+								 } else if (item.getInventory() > 0) {
+									 if (item.getPrice() > moneyCount.getCurrentBalance()) {
+										 System.out.println("You cannot afford this item with your current balance.");
+										 break;
+									 } else {
+										 moneyCount.setCurrentBalance(moneyCount.getCurrentBalance()-item.getPrice());
+										 item.setInventory(item.getInventory() - 1);
+										 System.out.println(item.getInventory() + " " + item.getName());
+										 System.out.printf("You have purchased %s for $%.2f.\n", item.getName(), item.getPrice());
+										 System.out.printf("Total remaining %s: %d.\n", item.getName(), item.getInventory());
+										 System.out.printf("Balance remaining: $%.2f\n", moneyCount.getCurrentBalance());
+										 item.getSound();
+										 break;
+									 }
+								 }
+							 } else {
+								 continue;
+							 }
 						 }
 					 } else if (choice2.equals(PURCHASE_MENU_OPTION_FINISH_TRANSACTION)) {
 						 moneyCount.finishTransaction();
